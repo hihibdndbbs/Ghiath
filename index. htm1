@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة معادلة دريك للحب - العراق</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #007bff;
+        }
+        h2 {
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .result-table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>حاسبة معادلة دريك للحب - العراق</h1>
+        <h2>بواسطة: Ghiath</h2>
+        <p>اختر قسمًا لتبدأ:</p>
+        <button onclick="startQuiz('male')">قسم الرجال</button>
+        <button onclick="startQuiz('female')">قسم النساء</button>
+
+        <div id="quiz" class="hidden">
+            <div class="question" id="question1">
+                <p>1. ما هو عمرك؟</p>
+                <input type="number" id="q1" placeholder="أدخل عمرك">
+            </div>
+            <div class="question" id="question2">
+                <p>2. ما هو العمر المفضل لشريك حياتك؟</p>
+                <input type="number" id="q2" placeholder="أدخل العمر المفضل">
+            </div>
+            <div class="question" id="question3">
+                <p>3. ما هي نسبة الموافقة الأسرية؟ (0-100%)</p>
+                <input type="number" id="q3" placeholder="أدخل النسبة">
+            </div>
+            <div class="question" id="question4">
+                <p>4. ما هي نسبة التوافق الديني؟ (0-100%)</p>
+                <input type="number" id="q4" placeholder="أدخل النسبة">
+            </div>
+            <div class="question" id="question5">
+                <p>5. ما هي نسبة التوافق الشخصي؟ (0-100%)</p>
+                <input type="number" id="q5" placeholder="أدخل النسبة">
+            </div>
+            <button onclick="calculateResults()">احسب النتائج</button>
+        </div>
+
+        <div id="results" class="hidden">
+            <h2>النتائج</h2>
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>المحافظة</th>
+                        <th>النسبة (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody">
+                    <!-- النتائج ستظهر هنا -->
+                </tbody>
+            </table>
+            <p id="totalResult"></p>
+        </div>
+    </div>
+
+    <script>
+        const provinces = [
+            "بغداد", "البصرة", "نينوى", "أربيل", "السليمانية", "ذي قار", "الأنبار", 
+            "بابل", "كربلاء", "واسط", "ميسان", "ديالى", "صلاح الدين", "القادسية", 
+            "دهوك", "المثنى", "كركوك", "ذي قار"
+        ];
+
+        function startQuiz(gender) {
+            document.getElementById('quiz').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+        }
+
+        function calculateResults() {
+            const q1 = parseFloat(document.getElementById('q1').value);
+            const q2 = parseFloat(document.getElementById('q2').value);
+            const q3 = parseFloat(document.getElementById('q3').value);
+            const q4 = parseFloat(document.getElementById('q4').value);
+            const q5 = parseFloat(document.getElementById('q5').value);
+
+            if (isNaN(q1) || isNaN(q2) || isNaN(q3) || isNaN(q4) || isNaN(q5)) {
+                alert("يرجى إدخال جميع القيم بشكل صحيح.");
+                return;
+            }
+
+            const resultBody = document.getElementById('resultBody');
+            resultBody.innerHTML = '';
+            let total = 0;
+
+            provinces.forEach(province => {
+                const randomFactor = Math.random() * 0.2 + 0.9; // عامل عشوائي لتمثيل الاختلاف بين المحافظات
+                const provinceResult = (q3 * q4 * q5 * randomFactor) / 10000;
+                total += provinceResult;
+
+                const row = `<tr>
+                    <td>${province}</td>
+                    <td>${provinceResult.toFixed(2)}%</td>
+                </tr>`;
+                resultBody.innerHTML += row;
+            });
+
+            document.getElementById('totalResult').innerText = `النسبة الإجمالية لكل العراق: ${total.toFixed(2)}%`;
+            document.getElementById('results').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
